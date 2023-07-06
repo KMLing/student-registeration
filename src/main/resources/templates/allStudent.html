@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+	<link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		  integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+		  crossorigin="anonymous">
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark text-light bg-dark">
+	<a class="navbar-brand" href="#">Navbar</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active"><a class="nav-link" href="#"
+										   th:href="@{/}">Home</span></a></li>
+
+			<li class="nav-item active"><a class="nav-link" href="#"
+										   th:href="@{/all}">All Students</span></a></li>
+			<li class="nav-item"><a class="nav-link" href="#"
+									th:href="@{/student}">New Student</a></li>
+
+
+
+		</ul>
+		<div sec:authorize="!isAuthenticated()">
+			<a href="#" th:href="@{/login}">Login</a>
+		</div>
+		
+		<div sec:authorize="isAuthenticated()">
+                <a href="javascript:document.logoutForm.submit()">Logout</a>
+
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input type="submit" hidden value="Sign Out">
+                </form>
+
+            </div>
+	</div>
+</nav>
+
+
+
+
+		<div class="container mt-5">
+		
+		
+		<form action="#" th:action="@{/all}" th:object="${search}"
+				method="post">
+				<div class="form-group row">
+					<label for="id" class="col-md-2">Student Roll</label>
+					<div class="col-md-8">
+						<input type="text" id="id" th:field="*{id}"
+							class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="name" class="col-md-2">Student Name</label>
+					<div class="col-md-8">
+						<input type="text" id="name" th:field="*{name}"
+							class="form-control">
+					</div>
+				</div>
+				
+				<input type="submit" value="Search" class="btn btn-primary">
+				
+		</form>
+			<table class="table">
+
+				<thead>
+					<tr>
+						<td>Student Roll</td>
+						<td>Student Name</td>
+						<td>NRC</td>
+						<td>Phone Number</td>
+						<td>Password</td>
+						<td>Role</td>
+						<td>Process</td>
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="student:${students}">
+						<td th:text="${student.id}"></td>
+						<td th:text="${student.name}"></td>
+						<td th:text="${student.nrc}"></td>
+						<td th:text="${student.phoneNumber}"></td>
+						<td th:text="${student.password}"></td>
+						<td th:text="${student.role}"></td>
+						<td><a href="#" th:href="@{'/delete/'+ ${student.id}}" class="btn btn-success">Delete</a>
+						<a href="#" th:href="@{'/update/'+ ${student.id}}" class="btn btn-success">Update</a>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+			<a href="#" th:href="@{/student}" class="btn btn-success">Add Student</a>
+		</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>
